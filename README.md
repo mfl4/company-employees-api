@@ -8,7 +8,7 @@
 
 ### Create Karyawan API
 
-Endpoint : POST /api/karyawan
+Endpoint : GET /api/karyawan
 
 Request Body :
 
@@ -38,11 +38,41 @@ Response Body Erorr :
 
 ### Read All Karyawan API
 
+Endpoint : GET /api/karyawan
+
+Request Body :
+
+```json
+{
+  "nama": "Mhd. Farhan Lubis",
+  "alamat": "Jl. Siliwangi"
+}
+```
+
+Response Body Success :
+
+```json
+{
+  "nama": "Mhd. Farhan Lubis",
+  "alamat": "Jl. Siliwangi"
+}
+```
+
+Response Body Erorr :
+
+```json
+{
+  "error": "name is required"
+}
+```
+
 ### Read Karyawan API
 
 ### Update Karyawan API
 
 ### Delete Karyawan API
+
+---
 
 <!-- API for Divisi -->
 
@@ -58,6 +88,8 @@ Response Body Erorr :
 
 ### Delete Divisi API
 
+---
+
 <!-- API for Presensi -->
 
 ## Presensi API Spec
@@ -72,6 +104,8 @@ Response Body Erorr :
 
 ### Delete Presensi API
 
+---
+
 <!-- API for Absensi -->
 
 ## Absensi API Spec
@@ -85,3 +119,5 @@ Response Body Erorr :
 ### Update Absensi API
 
 ### Delete Absensi API
+
+---
