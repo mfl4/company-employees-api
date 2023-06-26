@@ -116,21 +116,27 @@ app.get("/divisi/:id", (req, res) => {
 });
 
 // UPDATE divisi
-app.put("/divisi/:id", (req, res) => {
+app.put("/divisi/", (req, res) => {
   const { kodeDivisi, namaDivisi, deskripsi } = req.body;
-  const query = `UPDATE karyawan SET nama_karyawan = ${namaKaryawan}, tanggal_lahir= ${tanggalLahir}, jenis_kelamin = ${jenisKelamin}, alamat = ${alamat}, no_telp = ${noTelp}, kode_divisiFK = ${kodeDivisiFK}, jabatan = ${jabatan} WHERE id_karyawan = ${id}`;
+  const query = `UPDATE divisi SET nama_divisi = ${namaDivisi}, deskripsi = ${deskripsi} WHERE kode_divisi = ${kodeDivisi};
   db.query(query, (err, results) => {
     if (err) {
       throw err;
     }
-    responses(200, "update", "Update employee data successfully", res);
+    responses(200, "update", "Update division data successfully", res);
   });
-  responses(200, "update", "Update employee data successfully", res);
 });
 
 // DELETE divisi
-app.delete("/divisi/:id", (req, res) => {
-  responses(200, "delete", "Delete employee data successfully", res);
+app.delete("/divisi/", (req, res) => {
+  const { kodeDivisi } = req.body;
+  const query = `DELETE FROM divisi WHERE kode_divisi = ${kodeDivisi}`;
+  db.query(query, (err, results) => {
+    if (err) {
+      throw err;
+    }
+    responses(200, results, "Delete division data successfully", res);
+  });
 });
 
 // PRESENSI ROUTE
@@ -138,7 +144,7 @@ app.delete("/divisi/:id", (req, res) => {
 app.post("/presensi", (req, res) => {
   const { idKaryawanFK, keterangan } = req.body;
 
-  const query = `INSERT INTO divisi ( id_karyawanFK, keterangan) VALUES (${idKaryawanFK}, ${keterangan} )`;
+  const query = `INSERT INTO presensi ( id_karyawanFK, keterangan) VALUES (${idKaryawanFK}, ${keterangan} )`;
   db.query(query, (err, results) => {
     if (err) {
       responses(500, "invalid", "error", res);
@@ -171,13 +177,27 @@ app.get("/presensi/:id", (req, res) => {
 });
 
 // UPDATE presensi
-app.put("/presensi/:id", (req, res) => {
-  responses(200, "update", "Update presence data successfully", res);
+app.put("/presensi/", (req, res) => {
+  const { idPresensi, idKaryawanFK, deskripsi } = req.body;
+  const query = `UPDATE presensi SET id_karyawanFK = ${idKaryawanFK}, deskripsi = ${deskripsi} WHERE id_presensi = ${idPresensi};
+  db.query(query, (err, results) => {
+    if (err) {
+      throw err;
+    }
+    responses(200, "update", "Update presence data successfully", res);
+  });
 });
 
 // DELETE presensi
 app.delete("/presensi/:id", (req, res) => {
-  responses(200, "delete", "Delete presence data successfully", res);
+  const { idPresensi } = req.body;
+  const query = `DELETE FROM presensi WHERE id_presensi = ${idPresensi}`;
+  db.query(query, (err, results) => {
+    if (err) {
+      throw err;
+    }
+    responses(200, "delete", "Delete presence data successfully", res);
+  });
 });
 
 app.listen(port, () => {
