@@ -1,39 +1,76 @@
-import express, { application } from "express";
+const express = require("express");
 const app = express();
 const port = 3000;
+const bodyParser = require("body-parser");
+const db = require("./utils/databaseConnection");
+const responses = require("./utils/formatResponses");
+
+// Body request parsing
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 // main route
 app.get("/", (req, res) => {
-  res.send("Hello MFL4!");
+  responses(200, "ini data", "ini pesan", res);
 });
 
-// KARYAWAN MANAGEMENT
+// KARYAWAN ROUTE
 // CREATE karyawan
 app.post("/karyawan", (req, res) => {
-  res.send("POST /karyawan");
+  const { namaKaryawan, tanggalLahir, jenisKelamin, alamat, noTelp, kodeDivisi, jabatan } = req.body;
+
+  const query = `INSERT INTO mahasiswa ( nama_karyawan, tanggal_lahir, jenis_kelamin, alamat, no_telp, kode_divisiFK, jabatan) VALUES (${namaKaryawan}, ${tanggalLahir}, ${jenisKelamin}, ${alamat}, ${noTelp}, ${kodeDivisi}, ${jabatan} )`;
+  db.query(query, (err, results) => {
+    if (err) {
+      responses(500, "invalid", "error", res);
+    }
+    responses(200, results, "Insert employees data successfully", res);
+  });
 });
 
 // READ ALL karyawan
 app.get("/karyawan", (req, res) => {
-  res.send("GET /karyawan");
+  const query = "SELECT * FROM karyawan";
+  db.query(query, (err, results) => {
+    if (err) {
+      throw err;
+    }
+    responses(200, results, "Get all employees data successfully", res);
+  });
 });
 
 // READ karyawan
 app.get("/karyawan/:id", (req, res) => {
-  res.send("GET /karyawan/:id");
+  const id = req.params.id;
+  const query = `SELECT * FROM karyawan WHERE id_karyawan = ${id} `;
+  db.query(query, (err, results) => {
+    if (err) {
+      throw err;
+    }
+    responses(200, results, "Get employee data successfully", res);
+  });
 });
 
 // UPDATE karyawan
 app.put("/karyawan/:id", (req, res) => {
-  res.send("PUT /karyawan/:id");
+  const id = req.params.id;
+  const { namaKaryawan, tanggalLahir, jenisKelamin, alamat, noTelp, kodeDivisi, jabatan } = req.body;
+  const query = `UPDATE nama_karyawan = , tanggal_lahir, jenis_kelamin, alamat, no_telp, kode_divisiFK, jabatan WHERE id_karyawan = ${id}`;
+  db.query(query, (err, results) => {
+    if (err) {
+      throw err;
+    }
+
+    responses(200, "update", "Update employee data successfully", res);
+  });
 });
 
 // DELETE karyawan
 app.delete("/karyawan/:id", (req, res) => {
-  res.send("DELETE /karyawan/:id");
+  responses(200, "delete", "Delete employee data successfully", res);
 });
 
-// DIVISI MANAGEMENT
+// DIVISI ROUTE
 // CREATE divisi
 app.post("/divisi", (req, res) => {
   res.send("POST /divisi");
@@ -41,7 +78,13 @@ app.post("/divisi", (req, res) => {
 
 // READ ALL divisi
 app.get("/divisi", (req, res) => {
-  res.send("GET /divisi");
+  const query = "SELECT * FROM divisi";
+  db.query(query, (err, results) => {
+    if (err) {
+      throw err;
+    }
+    responses(200, results, "Get all divisions data successfully", res);
+  });
 });
 
 // READ divisi
@@ -59,7 +102,7 @@ app.delete("/divisi/:id", (req, res) => {
   res.send("DELETE /divisi/:id");
 });
 
-// PRESENSI MANAGEMENT
+// PRESENSI ROUTE
 // CREATE presensi
 app.post("/presensi", (req, res) => {
   res.send("POST /presensi");
@@ -67,7 +110,13 @@ app.post("/presensi", (req, res) => {
 
 // READ ALL presensi
 app.get("/presensi", (req, res) => {
-  res.send("GET /presensi");
+  const query = "SELECT * FROM presensi";
+  db.query(query, (err, results) => {
+    if (err) {
+      throw err;
+    }
+    responses(200, results, "Get all presence data successfully", res);
+  });
 });
 
 // READ presensi
@@ -83,32 +132,6 @@ app.put("/presensi/:id", (req, res) => {
 // DELETE presensi
 app.delete("/presensi/:id", (req, res) => {
   res.send("DELETE /presensi/:id");
-});
-
-// ABSENSI MANAGEMENT
-// CREATE absensi
-app.post("/absensi", (req, res) => {
-  res.send("POST /absensi");
-});
-
-// READ ALL absensi
-app.get("/absensi", (req, res) => {
-  res.send("GET /absensi");
-});
-
-// READ absensi
-app.get("/absensi/:id", (req, res) => {
-  res.send("GET /absensi/:id");
-});
-
-// UPDATE absensi
-app.put("/absensi/:id", (req, res) => {
-  res.send("PUT /absensi/:id");
-});
-
-// DELETE absensi
-app.delete("/absensi/:id", (req, res) => {
-  res.send("DELETE /absensi/:id");
 });
 
 app.listen(port, () => {
