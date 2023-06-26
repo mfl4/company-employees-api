@@ -118,7 +118,7 @@ app.get("/divisi/:id", (req, res) => {
 // UPDATE divisi
 app.put("/divisi/", (req, res) => {
   const { kodeDivisi, namaDivisi, deskripsi } = req.body;
-  const query = `UPDATE divisi SET nama_divisi = ${namaDivisi}, deskripsi = ${deskripsi} WHERE kode_divisi = ${kodeDivisi};
+  const query = `UPDATE divisi SET nama_divisi = ${namaDivisi}, deskripsi = ${deskripsi} WHERE kode_divisi = ${kodeDivisi}`;
   db.query(query, (err, results) => {
     if (err) {
       throw err;
@@ -128,12 +128,12 @@ app.put("/divisi/", (req, res) => {
 });
 
 // DELETE divisi
-app.delete("/divisi/", (req, res) => {
+app.delete("/divisi", (req, res) => {
   const { kodeDivisi } = req.body;
   const query = `DELETE FROM divisi WHERE kode_divisi = ${kodeDivisi}`;
   db.query(query, (err, results) => {
     if (err) {
-      throw err;
+      console.log(err);
     }
     responses(200, results, "Delete division data successfully", res);
   });
@@ -143,7 +143,6 @@ app.delete("/divisi/", (req, res) => {
 // CREATE presensi
 app.post("/presensi", (req, res) => {
   const { idKaryawanFK, keterangan } = req.body;
-
   const query = `INSERT INTO presensi ( id_karyawanFK, keterangan) VALUES (${idKaryawanFK}, ${keterangan} )`;
   db.query(query, (err, results) => {
     if (err) {
@@ -179,7 +178,7 @@ app.get("/presensi/:id", (req, res) => {
 // UPDATE presensi
 app.put("/presensi/", (req, res) => {
   const { idPresensi, idKaryawanFK, deskripsi } = req.body;
-  const query = `UPDATE presensi SET id_karyawanFK = ${idKaryawanFK}, deskripsi = ${deskripsi} WHERE id_presensi = ${idPresensi};
+  const query = `UPDATE presensi SET id_karyawanFK = ${idKaryawanFK}, deskripsi = ${deskripsi} WHERE id_presensi = ${idPresensi}`;
   db.query(query, (err, results) => {
     if (err) {
       throw err;
@@ -191,7 +190,7 @@ app.put("/presensi/", (req, res) => {
 // DELETE presensi
 app.delete("/presensi/:id", (req, res) => {
   const { idPresensi } = req.body;
-  const query = `DELETE FROM presensi WHERE id_presensi = ${idPresensi}`;
+  const query = `DELETE  FROM presensi WHERE id_presensi = ${idPresensi}`;
   db.query(query, (err, results) => {
     if (err) {
       throw err;
