@@ -1,20 +1,39 @@
-const EmployeeModel = require("../models/employees");
-const database = require("../config/database");
+const EmployeeModel = require("../models/employee");
+const db = require("../config/database");
 
 const GetAllEmployees = async (req, res) => {
   const model = await EmployeeModel.GetAllEmployees(req);
-  database.query(model.SQLquery, (err, result) => {
+  db.query(model.SQLquery, (err, result) => {
     if (err) res.send(err);
-    res.send(result);
+    console.log(result);
   });
 };
 
 const SearchEmployee = async (req, res) => {
   const model = await EmployeeModel.SearchEmployee(req);
-  database.query(model.SQLquery, (err, result) => {
+  db.query(model.SQLquery, (err, result) => {
     if (err) res.send(err);
     res.send(result);
   });
 };
 
-module.exports = { GetAllEmployees, SearchEmployee };
+const AddEmployee = async (req, res) => {
+  const model = await EmployeeModel.AddEmployee(req);
+  try {
+    db.query(model.checker, (err, result) => {
+      console.log(result);
+      if (result.length === 0) {
+        db.query(model.SQLquery, (err, result) => {
+          if (err) res.send("error");
+          res.send({ message: "success" });
+        });
+      } else {
+        res.send("error");
+      }
+    });
+  } catch (error) {
+    res.send("Internal Server Error");
+  }
+};
+
+module.exports = { GetAllEmployees, SearchEmployee, AddEmployee };

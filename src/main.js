@@ -4,7 +4,7 @@ const cookieParser = require("cookie-parser");
 const database = require("./config/database");
 const port = 3000;
 const LoginRouter = require("./routes/login");
-// const EmployeeRouter = require("./routes/employee");
+const EmployeeRouter = require("./routes/employee");
 // const DivisionRouter = require("./routes/division");
 // const PresenceRouter = require("./routes/presence");
 
@@ -22,7 +22,7 @@ app.use(express.json());
 app.use(cookieParser());
 // app.use('/auth', userAuth);
 app.use("/login", LoginRouter);
-// app.use("/employee", EmployeeRouter);
+app.use("/employee", EmployeeRouter);
 // app.use("/division", DivisionRouter);
 // app.use("/presence ", PresenceRouter);
 
