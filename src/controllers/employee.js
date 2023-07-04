@@ -2,10 +2,10 @@ const EmployeeModel = require("../models/employee");
 const db = require("../config/database");
 
 const GetAllEmployees = async (req, res) => {
-  const model = await EmployeeModel.GetAllEmployees(req);
+  const model = await EmployeeModel.GetAllEmployees();
   db.query(model.SQLquery, (err, result) => {
-    if (err) res.send(err);
-    console.log(result);
+    if (err) console.log(err);
+    res.json(result);
   });
 };
 
@@ -36,4 +36,32 @@ const AddEmployee = async (req, res) => {
   }
 };
 
-module.exports = { GetAllEmployees, SearchEmployee, AddEmployee };
+const UpdateEmployee = async (req, res) => {
+  const model = await EmployeeModel.UpdateEmployee(req);
+  db.query(model.SQLquery, (err, result) => {
+    if (err) res.send(err);
+    res.send({
+      message: "Update Success",
+      data: result,
+    });
+  });
+};
+
+const DeleteEmployee = async (req, res) => {
+  const model = await EmployeeModel.DeleteEmployee(req);
+  db.query(model.SQLquery, (err, result) => {
+    if (err) res.send(err);
+    res.send({
+      message: "Delete success",
+      data: result,
+    });
+  });
+};
+
+module.exports = {
+  GetAllEmployees,
+  SearchEmployee,
+  AddEmployee,
+  UpdateEmployee,
+  DeleteEmployee,
+};

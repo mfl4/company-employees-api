@@ -9,19 +9,18 @@ const EmployeeRouter = require("./routes/employee");
 // const PresenceRouter = require("./routes/presence");
 
 const app = express();
+app.use(express.json());
 
 app.use(
   cors({
     credentials: true,
-    methods: ["GET, POST, PUT, DELETE"],
+    methods: ["GET, POST"],
     origin: "http://localhost:5174",
   })
 );
 
-app.use(express.json());
 app.use(cookieParser());
-// app.use('/auth', userAuth);
-app.use("/login", LoginRouter);
+// app.use("/login", LoginRouter);
 app.use("/employee", EmployeeRouter);
 // app.use("/division", DivisionRouter);
 // app.use("/presence ", PresenceRouter);
