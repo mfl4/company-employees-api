@@ -6,7 +6,7 @@ const port = 3000;
 const LoginRouter = require("./routes/login");
 const EmployeeRouter = require("./routes/employee");
 // const DivisionRouter = require("./routes/division");
-// const PresenceRouter = require("./routes/presence");
+const PresenceRouter = require("./routes/presence");
 
 const app = express();
 app.use(express.json());
@@ -15,15 +15,15 @@ app.use(
   cors({
     credentials: true,
     methods: ["GET, POST"],
-    origin: "http://localhost:5174",
+    origin: "http://localhost:3001",
   })
 );
 
 app.use(cookieParser());
-// app.use("/login", LoginRouter);
+app.use("/login", LoginRouter);
 app.use("/employee", EmployeeRouter);
 // app.use("/division", DivisionRouter);
-// app.use("/presence ", PresenceRouter);
+app.use("/presence", PresenceRouter);
 
 // main route
 app.get("/", (req, res) => {
@@ -33,5 +33,5 @@ app.get("/", (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Server listening on port http://127.0.0.1:${port}`);
+  console.log(`Server listening on port ${port}`);
 });

@@ -5,7 +5,10 @@ const GetAllEmployees = async (req, res) => {
   const model = await EmployeeModel.GetAllEmployees();
   db.query(model.SQLquery, (err, result) => {
     if (err) console.log(err);
-    res.json(result);
+    res.send({
+      message: "Get Success",
+      data : result
+    });
   });
 };
 
@@ -13,27 +16,35 @@ const SearchEmployee = async (req, res) => {
   const model = await EmployeeModel.SearchEmployee(req);
   db.query(model.SQLquery, (err, result) => {
     if (err) res.send(err);
-    res.send(result);
+    res.send({
+      message : "success",
+      data : result
+    });
   });
 };
 
 const AddEmployee = async (req, res) => {
   const model = await EmployeeModel.AddEmployee(req);
-  try {
-    db.query(model.checker, (err, result) => {
+    db.query(model.SQLquery, (err, result) => {
       console.log(result);
-      if (result.length === 0) {
-        db.query(model.SQLquery, (err, result) => {
-          if (err) res.send("error");
-          res.send({ message: "success" });
-        });
-      } else {
-        res.send("error");
-      }
-    });
-  } catch (error) {
-    res.send("Internal Server Error");
-  }
+      if (err) res.send(err);
+      res.send({ 
+        message: "add success",
+        data : result 
+      })
+  })
+  //     if (result.length === 0) {
+  //       db.query(model.SQLquery, (err, result) => {
+  //         if (err) res.send("error");
+  //         res.send({ message: "add success" });
+  //       });
+  //     } else {
+  //       res.send("error");
+  //     }
+  //   });
+  // } catch (error) {
+  //   res.send("Internal Server Error");
+  // }
 };
 
 const UpdateEmployee = async (req, res) => {

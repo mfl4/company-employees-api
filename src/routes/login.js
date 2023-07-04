@@ -3,7 +3,7 @@ const EmployeeController = require("../controllers/login");
 
 const router = express.Router();
 
+router.get("/get", EmployeeController.GetEmployees);
 router.post("/", EmployeeController.EmployeeLogin);
-router.get("/", EmployeeController.GetEmployees);
 
 module.exports = router;

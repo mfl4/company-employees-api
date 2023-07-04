@@ -30,8 +30,6 @@ const GetEmployees = async (req, res) => {
   });
 };
 
-module.exports = { EmployeeLogin, GetEmployees };
-
 const UserLogin = async (req, res) => {
   const model = await LoginModel.UserLogin(req);
   db.query(model.sqlQuery, [model.values], (err, result) => {
@@ -62,4 +60,4 @@ const GetUsers = async (req, res) => {
   });
 };
 
-module.exports = { UserLogin, GetUsers };
+module.exports = { UserLogin, GetUsers,EmployeeLogin, GetEmployees  };
